@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boletim de Notas</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: aliceblue;
+            color: rgb(81, 65, 219);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        h1, h2, h3 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        select, input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        span.resultado {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Boletim de Notas</h1>
+    <h2>1. ALUNO</h2>
+    <form>
+        <p>Escola:
+            <select id="escola">
+                <option>SELECIONE O NOME DA ESCOLA</option>
+                <option>Escola Técnica Estadual Porto Digital</option>
+                <option>Escola Técnica Estadual Cícero Dias</option>
+                <option>Escola Técnica Estadual Ginásio Pernambucano</option>
+                <option>Escola de Referência em Ensino Médio Gervásio Pires</option>
+                <option>Escola Estadual Jorge Amado</option>
+                <option>Escola Municipal de Olinda</option>
+            </select>
+        </p>
+        <p>Aluno:
+            <select id="aluno">
+                <option>SELECIONE O NOME DO ALUNO</option>
+                <option>João Ferreira Sales Pinto da Silva</option>
+                <option>Maria Clara Andrade de Souza</option>
+                <option>Luiz Felipe Alves Costa</option>
+                <option>Ana Paula Ribeiro Santos</option>
+                <option>Bruno Henrique Martins Lima</option>
+                <option>Fernanda Beatriz Oliveira Silva</option>
+                <option>Gabriel Augusto Cardoso Mendes</option>
+                <option>Isabela Cristina Ferreira Gomes</option>
+                <option>Henrique Eduardo Pereira Rocha</option>
+                <option>Carla Beatriz Fernandes Souza</option>
+            </select>
+        </p>
+        <p>Turma:
+            <select id="turma">
+                <option>SELECIONE A TURMA</option>
+                <option>DS1MA</option>
+                <option>DS1MB</option>
+                <option>DS1MC</option>
+                <option>DS2MA</option>
+                <option>DS2MB</option>
+                <option>DS2MC</option>
+                <option>DS3MA</option>
+                <option>DS3MB</option>
+                <option>ADM1MA</option>
+                <option>ADM1MB</option>
+                <option>ADM2MA</option>
+                <option>ADM2MB</option>
+                <option>ADM2MC</option>
+                <option>ADM3MA</option>
+                <option>ADM3MB</option>
+                <option>RED1MA</option>
+                <option>RED2MA</option>
+            </select>
+        </p>
+        <p>Professor:
+            <select id="professor">
+                <option>SELECIONE O PROFESSOR</option>
+                <option>Bruno</option>
+                <option>Rafael</option>
+                <option>Daiana</option>
+                <option>Henrique</option>
+                <option>Mariana</option>
+            </select>
+        </p>
+        <p>Disciplina:
+            <select id="disciplina">
+                <option>SELECIONE A DISCIPLINA</option>
+                <option>Sistemas Operacionais</option>
+                <option>Introdução à Programação</option>
+                <option>Álgebra Linear</option>
+                <option>Introdução ao EAD</option>
+                <option>Lógica de Programação</option>
+                <option>Banco de Dados</option>
+            </select>
+        </p>
+    </form>
+
+    <h3>2. NOTA</h3>
+    <p>AV1: <input type="number" id="AV1" name="AV1" size="2" maxlength="4" min="0" max="10" placeholder="NOTA1"></p>
+    <p>AV2: <input type="number" id="AV2" name="AV2" size="2" maxlength="4" min="0" max="10" placeholder="NOTA2"></p>
+    <div id="recuperacaoSection" style="display: none;">
+        <p>Recuperação: <input type="number" id="Recuperacao" name="Recuperacao" size="2" maxlength="4" min="0" max="10" placeholder="NOTA REC"></p>
+    </div>
+    
+    <button type="button" onclick="calcularMedia()">Calcular Média</button>
+    <p>Média: <span id="media"></span></p>
+    <div id="infoResultado" class="info"></div>
+
+    <script>
+       function calcularMedia() {
+    var escola = document.getElementById('escola').value;
+    var aluno = document.getElementById('aluno').value;
+    var turma = document.getElementById('turma').value;
+    var professor = document.getElementById('professor').value;
+    var disciplina = document.getElementById('disciplina').value;
+
+    var av1 = parseFloat(document.getElementById('AV1').value);
+    var av2 = parseFloat(document.getElementById('AV2').value);
+    var recuperacao = parseFloat(document.getElementById('Recuperacao').value);
+
+    var mediainicial = (av1 + av2) / 2;
+    var mediafinal;
+    var resultado;
+
+    if (mediainicial < 3.7) {
+        mediafinal = mediainicial;
+        resultado = "Reprovado direto";
+        document.getElementById('recuperacaoSection').style.display = 'none';
+    } else if (mediainicial >= 6) {
+        mediafinal = mediainicial;
+        resultado = "Aprovado na final. Parabéns!!";
+        document.getElementById('recuperacaoSection').style.display = 'none';
+    } else if (mediainicial >= 3.7 && mediainicial < 6) {
+        document.getElementById('recuperacaoSection').style.display = 'block';
+        if (isNaN(recuperacao)) {
+            alert("Por favor, insira uma nota válida para a Recuperação.");
+            return;
+        }
+        mediafinal = (mediainicial + recuperacao) / 2;
+
+        if (mediafinal >= 6) {
+            resultado = "Aprovado na Recuperação Final. Parabéns!!";
+        } else {
+            resultado = "Reprovado na Recuperação Final!!";
+        }
+    } else {
+        mediafinal = mediainicial;
+        resultado = "Reprovado";
+        document.getElementById('recuperacaoSection').style.display = 'none';
+    }
+
+    
+    document.getElementById('media').innerText = mediafinal.toFixed(1);
+
+    
+    var infoResultado = `<p>Escola: ${escola}</p>
+                         <p>Aluno: ${aluno}</p>
+                         <p>Professor: ${professor}</p>
+                         <p>Turma: ${turma}</p>
+                         <p>Disciplina: ${disciplina}</p>
+                         <p>AV1: ${av1}</p>
+                         <p>AV2: ${av2}</p>
+                         <p>Média Final: ${mediafinal.toFixed(1)}</p>
+                         <p>Resultado: ${resultado}</p>`;
+
+    if (!isNaN(recuperacao)) {
+        infoResultado += `<p>Recuperação: ${recuperacao}</p>`;
+    }
+
+    document.getElementById('infoResultado').innerHTML = infoResultado;
+}
+
+    </script>
+</body>
+</html>
